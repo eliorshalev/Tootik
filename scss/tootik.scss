@@ -1,0 +1,237 @@
+@import 'mixin';
+@import 'variable';
+
+// Tootik
+[data-tootik] {
+  position: relative;
+
+  // Bubble
+  &:after {
+    border-radius: 7px;
+    bottom: 100%;
+    box-sizing: border-box;
+    color: $color-invert;
+    content: attr(data-tootik);
+    font-family: $font-family;
+    font-size: $font-size;
+    font-style: normal;
+    left: 50%;
+    line-height: $font-size + 1px;
+    max-width: 320px;
+    opacity: 0;
+    overflow: hidden;
+    padding: 6px 6px 5px 6px;
+    pointer-events: none;
+    position: absolute;
+    text-align: center;
+    text-overflow: ellipsis;
+    transform: translate(-50%, 12px);
+    transition: opacity .3s $transition-style,
+    transform .3s $transition-style;
+    white-space: nowrap;
+    z-index: 100000;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  // Arrow
+  &:before {
+    @include arrowPosition(top);
+    content: '';
+    height: 0;
+    left: 50%;
+    opacity: 0;
+    position: absolute;
+    top: -2px;
+    transform: translate(-50%, calc(-50% - 6px));
+    transition: opacity .1s $transition-style 0s,
+    transform .6s $transition-style 0s;
+    width: 0;
+    z-index: 110000;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  @include setTootikColor($color-default);
+
+  &:hover,
+  &:focus {
+    &:before,
+    &:after {
+      opacity: 1;
+    }
+    &:before {
+      transform: translate(-50%, calc(-50% - 2px));
+      transition: opacity .1s $transition-style .1s,
+      transform .6s $transition-style .1s;
+    }
+    &:after {
+      transform: translate(-50%, -6px);
+    }
+  }
+
+  // Positions
+  &[data-tootik-conf*='right'] {
+    &:before {
+      @include arrowPosition(right);
+      left: auto;
+      right: -$arrow-position;
+      top: 50%;
+      transform: translate(calc(-50% + 7px), -50%);
+    }
+    &:after {
+      bottom: auto;
+      left: 100%;
+      top: 50%;
+      transform: translate(-12px, -50%);
+    }
+    &:hover,
+    &:focus {
+      &:before {
+        transform: translate(calc(-50% + 3px), -50%);
+      }
+      &:after {
+        transform: translate(7px, -50%);
+      }
+    }
+  }
+  &[data-tootik-conf*='bottom'] {
+    &:before {
+      @include arrowPosition(bottom);
+      bottom: -$arrow-position;
+      left: 50%;
+      top: auto;
+      transform: translate(-50%, calc(-50% + 6px));
+    }
+    &:after {
+      bottom: auto;
+      left: 50%;
+      top: 100%;
+      transform: translate(-50%, -12px);
+    }
+    &:hover,
+    &:focus {
+      &:before {
+        transform: translate(-50%, calc(-50% + 2px));
+      }
+      &:after {
+        transform: translate(-50%, 6px);
+      }
+    }
+  }
+  &[data-tootik-conf*='left'] {
+    &:before {
+      @include arrowPosition(left);
+      height: 0;
+      left: -2px;
+      top: 50%;
+      transform: translate(calc(-50% - 8px), -50%);
+      width: 0;
+    }
+    &:after {
+      bottom: auto;
+      left: auto;
+      right: 100%;
+      top: 50%;
+      transform: translate(12px, -50%);
+    }
+    &:hover,
+    &:focus {
+      &:after {
+        transform: translate(-7px, -50%);
+      }
+      &:before {
+        transform: translate(calc(-50% - 3px), -50%);
+      }
+    }
+  }
+
+  //// Features
+
+  // Multiline
+  &[data-tootik-conf*='multiline'] {
+    &:after {
+      min-width: 180px;
+      text-overflow: clip;
+      white-space: normal;
+      word-break: break-word;
+    }
+  }
+
+  // Delay
+  &[data-tootik-conf*='delay'] {
+    &:before {
+      transition: opacity .2s $transition-style 0s,
+      transform .3s $transition-style 0s;
+    }
+    &:after {
+      transition: opacity .3s $transition-style 0s,
+      transform .3s $transition-style 0s;
+    }
+    &:hover,
+    &:focus {
+      &:before {
+        transition: opacity .2s $transition-style .5s,
+        transform .6s $transition-style .5s;
+      }
+      &:after {
+        transition: opacity .3s $transition-style .4s,
+        transform .3s $transition-style .4s;
+      }
+    }
+  }
+
+  // Shadow
+  &[data-tootik-conf*='shadow'] {
+    &:after {
+      box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  // No Fading {
+  &[data-tootik-conf*='no-fading'] {
+    &:before,
+    &:after {
+      transition: none;
+    }
+  }
+
+  // No Arrow {
+  &[data-tootik-conf*='no-arrow'] {
+    &:before {
+      display: none;
+    }
+  }
+
+  // Square {
+  &[data-tootik-conf*='square'] {
+    &:after {
+      border-radius: 0;
+    }
+  }
+
+  // Types
+  &[data-tootik-conf*='invert'] {
+    @include setTootikColor($tootik-invert);
+  }
+  &[data-tootik-conf*='success'] {
+    @include setTootikColor($tootik-success);
+  }
+  &[data-tootik-conf*='info'] {
+    @include setTootikColor($tootik-info);
+  }
+  &[data-tootik-conf*='warning'] {
+    @include setTootikColor($tootik-warning);
+  }
+  &[data-tootik-conf*='danger'] {
+    @include setTootikColor($tootik-danger);
+  }
+
+  // Hide if has no message
+  &[data-tootik=''] {
+    &:before,
+    &:after {
+      display: none;
+    }
+  }
+}
